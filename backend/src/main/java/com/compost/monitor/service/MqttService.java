@@ -5,6 +5,7 @@ import com.compost.monitor.repository.ReadingRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.eclipse.paho.client.mqttv3.*;
+import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence; // Added this import
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +24,15 @@ public class MqttService implements MqttCallback {
     @PostConstruct
     public void init() {
         try {
-            // Broker Address (localhost for now, will change for ESP32)
             String broker = "tcp://localhost:1883";
             String clientId = MqttClient.generateClientId();
 
-            client = new MqttClient(broker, clientId);
+            // 1. Define the temporary directory for persistence files
+            String tempDir = System.getProperty("java.io.tmpdir");
+            MqttDefaultFilePersistence persistence = new MqttDefaultFilePersistence(tempDir);
+
+            // 2. Initialize the client with persistence
+            client = new MqttClient(broker, clientId, persistence);
 
             MqttConnectOptions options = new MqttConnectOptions();
             options.setCleanSession(true);
@@ -37,10 +42,9 @@ public class MqttService implements MqttCallback {
             client.setCallback(this);
             client.connect(options);
 
-            // Topic the ESP32 will publish to
             client.subscribe("compost/sensors");
 
-            System.out.println(">>> MQTT Connected to: " + broker);
+            System.out.println(">>> MQTT Connected. Persistence logs moved to: " + tempDir);
         } catch (MqttException e) {
             System.err.println(">>> MQTT Connection Failed: " + e.getMessage());
         }
@@ -57,20 +61,14 @@ public class MqttService implements MqttCallback {
             String payload = new String(message.getPayload());
             System.out.println(">>> Received MQTT Payload: " + payload);
 
-            // 1. Convert JSON string to Java Object
             CompostReading reading = objectMapper.readValue(payload, CompostReading.class);
-
-            // 2. Save the raw sensor data to MongoDB
             readingRepo.save(reading);
-
-            // 3. Pass data to the brain to update batch progress/alerts
             compostService.processIntelligence(reading);
 
             System.out.println(">>> Data processed and batch updated successfully.");
 
         } catch (Exception e) {
             System.err.println(">>> Error processing message: " + e.getMessage());
-            // We catch the error so the MQTT thread doesn't die
         }
     }
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 // Removed Firebase imports
-import Login from './components/Auth/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import RequestForm from './components/Request/RequestForm';
 import BatchHistory from './components/History/BatchHistory';

@@ -6,4 +6,6 @@ import com.compost.monitor.model.CompostBatch;
 
 public interface BatchRepository extends MongoRepository<CompostBatch, String> {
     CompostBatch findFirstByStatus(String status);
+
+    CompostBatch findFirstByOrderByStartTimeDesc();
 }

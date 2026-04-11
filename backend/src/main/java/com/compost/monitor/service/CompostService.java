@@ -1,5 +1,7 @@
 package com.compost.monitor.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +34,17 @@ public class CompostService {
         }
 
         // 3. Mark as Ready
+        // Inside processIntelligence method:
         if (batch.getProgress() >= 100) {
-            batch.setStatus("READY");
-            batch.setAlertMessage("Compost is ready!");
+            batch.setStatus("COMPLETED"); // Match the frontend 'COMPLETED' string
+
+            // Simple logic: 40% of waste becomes compost
+            double finalYield = batch.getInitialWeight() * 0.4;
+            batch.setCompost(finalYield);
+            batch.setAvailable(finalYield);
+
+            batch.setEndTime(LocalDateTime.now());
+            batch.setAlertMessage("Compost is ready for collection!");
         }
 
         batchRepo.save(batch);

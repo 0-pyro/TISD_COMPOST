@@ -12,7 +12,7 @@ export const NotificationProvider = ({ children }) => {
   const addNotification = useCallback((message, type = 'info') => {
     const id = Date.now();
     setNotifications(prev => [...prev, { id, message, type }]);
-    
+
     // Auto-remove after 5 seconds
     setTimeout(() => {
       removeNotification(id);
@@ -59,24 +59,24 @@ export const NotificationProvider = ({ children }) => {
               }}
             >
               <div style={{
-                color: type === 'success' ? 'var(--success)' : 
-                       type === 'error' ? 'var(--danger)' : 
-                       'var(--accent-primary)'
+                color: type === 'success' ? 'var(--success)' :
+                  type === 'error' ? 'var(--danger)' :
+                    'var(--accent-primary)'
               }}>
                 {type === 'success' && <CheckCircle2 size={20} />}
                 {type === 'error' && <AlertCircle size={20} />}
                 {type === 'info' && <Info size={20} />}
               </div>
-              
+
               <div style={{ flex: 1, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
                 {message}
               </div>
 
-              <button 
+              <button
                 onClick={() => removeNotification(id)}
-                style={{ 
-                  background: 'transparent', 
-                  border: 'none', 
+                style={{
+                  background: 'transparent',
+                  border: 'none',
                   color: 'var(--text-secondary)',
                   cursor: 'pointer',
                   padding: '4px',

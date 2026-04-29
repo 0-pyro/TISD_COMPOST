@@ -97,9 +97,6 @@ const BatchHistory = () => {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '20px', marginTop: '16px' }}>
-                  <div className="sensor-mini"><Thermometer size={14} /> {batch.temperature}°C</div>
-                  <div className="sensor-mini"><Droplets size={14} /> {batch.moisture}%</div>
                 </div>
               </motion.div>
             ))

@@ -35,6 +35,14 @@ public class BatchController {
         return batchRepo.findAll(Sort.by(Sort.Direction.DESC, "startTime"));
     }
 
+    // For delivery stats
+    @GetMapping("/stats/delivery")
+    public Map<String, Object> getDeliveryStats() {
+        List<CompostBatch> batches = batchRepo.findAll();
+        double totalDelivered = batches.stream().mapToDouble(b -> b.getCompost() - b.getAvailable()).sum();
+        return Map.of("totalDelivered", totalDelivered);
+    }
+
     // The logic for the Farmer Request
     @PostMapping("/request")
     public ResponseEntity<?> handleRequest(@RequestBody Map<String, Object> payload) {

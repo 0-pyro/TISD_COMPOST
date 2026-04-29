@@ -44,7 +44,7 @@ public class CompostService {
             batch.setAvailable(finalYield);
 
             batch.setEndTime(LocalDateTime.now());
-            batch.setAlertMessage("Compost is ready for collection!");
+            batch.setAlertMessage("Compost is ready");
         }
 
         batchRepo.save(batch);

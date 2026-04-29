@@ -38,13 +38,4 @@ public class CompostController {
         map.put("activeBatch", batchRepo.findFirstByStatus("ACTIVE"));
         return map;
     }
-
-    @PostMapping("/collect")
-    public void collect() {
-        CompostBatch batch = batchRepo.findFirstByStatus("READY");
-        if (batch != null) {
-            batch.setStatus("COLLECTED");
-            batchRepo.save(batch);
-        }
-    }
 }

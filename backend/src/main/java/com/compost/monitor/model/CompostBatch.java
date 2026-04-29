@@ -14,7 +14,7 @@ public class CompostBatch {
     private String id;
     private Double initialWeight;
     private Double progress = 0.0;
-    private String status = "ACTIVE"; // ACTIVE, READY, COMPLETED, COLLECTED
+    private String status = "ACTIVE"; // ACTIVE, COMPLETED
     private String alertMessage = "System Normal";
     private LocalDateTime startTime = LocalDateTime.now();
     private LocalDateTime endTime; // New: To track when it finished

@@ -66,7 +66,7 @@ const Dashboard = () => {
             New Compost Batch
           </h3>
 
-          {(!batch || batch.status === 'COLLECTED') ? (
+          {(!batch || batch.status !== 'ACTIVE') ? (
             <form onSubmit={startProcess}>
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>

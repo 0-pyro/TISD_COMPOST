@@ -97,13 +97,13 @@ const BatchHistory = () => {
                   </div>
                 </div>
 
-                </div>
+              </div>
               </motion.div>
-            ))
+        ))
           )}
-        </AnimatePresence>
-      </div>
+      </AnimatePresence>
     </div>
+    </div >
   );
 };
 

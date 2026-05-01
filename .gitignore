@@ -1,3 +1,24 @@
 **/node_modules/
 **/target/
 **/.env*
+# Ignore local Python virtual environments
+.venv/
+venv/
+
+# Ignore IDE/editor settings
+.vscode/
+.idea/
+
+# Ignore Mosquitto broker directory (not part of app source)
+mosquitto/
+
+# Ignore second frontend which is unused
+frontend2/
+
+# Ignore frontend build error artifacts
+frontend/build_error.txt
+frontend2/build_error.txt
+
+# Misc
+*.log
+*.tmp
